@@ -51,52 +51,78 @@ class Router
     /**
      * Устанавливает текущий маршрут
      *
-     * @param $routes
-     * @param $uri
+     * @param $route
+     * @return void
      */
-    public function setCurrentRoute($routes, $uri): void
+    private function setCurrentRoute($route): void
     {
-        $this->currentRoute = $this->findRoute($routes, $uri);
+        $this->currentRoute = $route;
     }
 
     /**
-     * Ищет маршрут
+     * Ищет маршрут и заполняет его поля значениями из найденных совпадений $matches,
+     * если поля еще не заполнены (например, из-за специфичного описания маршрута в конфиге)
      *
      * @param $routes
      * @param $uri
      * @return Route
      */
-    private function findRoute($routes, $uri): Route
+    private function findAndPrepareRoute($routes, $uri): Route
     {
         foreach ($routes as $route) {
-            if ($this->findMatch($route->getPattern(), $uri)) {
+            $pattern = $route->getPattern();
+            if (preg_match("#$pattern#", $uri, $matches)) {
+
+                if ($route->getController() === '' && isset($matches['controller'])) {
+                    $route->setController($matches['controller']);
+                }
+
+                if ($route->getAction() === '' && isset($matches['action'])) {
+                    $route->setAction($matches['action']);
+                } else {
+                    $route->setAction('index');
+                }
+
                 return $route;
             }
         }
-
-        return null;
     }
 
     /**
-     * Ищет совпадения
+     * Проверяет, существует ли маршрут
      *
-     * @param string $pattern Шаблон
-     * @param string $uri URI
+     * @param $routes
+     * @param $uri
      * @return bool
      */
-    private function findMatch(string $pattern, string $uri): bool
+    private function routeExists($routes, $uri): bool
     {
-        return preg_match("#$pattern#", $uri) ? true : false;
+        foreach ($routes as $route) {
+            $pattern = $route->getPattern();
+            if (preg_match("#$pattern#", $uri)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-
+    /**
+     * Создает запрос на существование искомого контроллера и экшена и возвращает ответ
+     *
+     * @param string $controllersPath Путь до котроллеров
+     * @return Response Ответ, содержащий имя текущего контроллера и экшена
+     * @throws \Exception Исключения в случае, если не найден путь, контроллер или экшен
+     */
     public function dispatch($controllersPath): Response
     {
-        $this->setCurrentRoute($this->routes, $this->uri);
-
-        if ($this->getCurrentRoute() === null) {
+        if (!$this->routeExists($this->routes, $this->uri)) {
             throw new \Exception("Маршрут $this->uri не найден", 404);
         }
+
+        $this->setCurrentRoute(
+            $this->findAndPrepareRoute($this->routes, $this->uri)
+        );
 
         $request = new Request($controllersPath,
             $this->getCurrentRoute()->getController(), $this->getCurrentRoute()->getAction());

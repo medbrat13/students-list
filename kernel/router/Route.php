@@ -59,4 +59,20 @@ class Route
         return $this->action;
     }
 
+    /**
+     * @param string $controller
+     */
+    public function setController(string $controller): void
+    {
+        $this->controller = $controller;
+    }
+
+    /**
+     * @param string $action
+     */
+    public function setAction(string $action): void
+    {
+        $this->action = $action;
+    }
+
 }
