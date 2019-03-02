@@ -7,10 +7,23 @@ return [
         'controller' => 'main',
         'action'     => 'index'
     ],
+//
+//    '^search$' =>
+//    [
+//      'controller' => 'main',
+//      'action'     => 'search'
+//    ],
 
-    'register' =>
+//    '^register$' =>
+//    [
+//        'controller' => 'register',
+//        'action'     => 'index'
+//    ],
+
+
+    '^(?P<controller>[a-z]+)/?(?P<action>[a-z]+)?$' =>
     [
-        'controller' => 'register',
-        'action'     => 'index'
+        'controller' => '',
+        'action'     => ''
     ]
 ];
