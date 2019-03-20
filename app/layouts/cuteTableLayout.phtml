@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/style.css">
+    <title><?=$meta['title']?></title>
+</head>
+<body>
+<header class="header">
+   <div class="header__container">
+       <h1 class="header__title"><?=$data['h1']?></h1>
+       <form action="" class="header__search"></form>
+       <a class="header__btn" href="<?=$data['header_btn_action']?>"><?=$data['header_btn_text']?></a>
+   </div>
+</header>
+<main class="main">
+
+<?=$viewContent?>
+
+</main>
+<script src="/js/main.js"></script>
+</body>
+</html>

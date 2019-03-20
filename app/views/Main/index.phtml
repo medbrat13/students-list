@@ -1,0 +1,74 @@
+<section class="search">
+    <form class="search__form" action="/search" method="get">
+        <label class="search__form__label">
+            <input id="search-field" type="search" name="search" class="search__form__field" value="<?=$data['search'] ?? ''?>">
+        </label>
+        <button class="search__form__btn" name="search_btn" type="submit">Найти</button>
+    </form>
+</section>
+<?php if (isset($data['students']) && count($data['students']) > 0): ?>
+<table class="students-table">
+    <tr class="students-table__row--header">
+        <th class="students-table__cell--header">
+            <span class="students-table__cell--header__name">Имя</span>
+            <form class="col-sort" action="" method="get">
+                <button class="col-sort-up" name="sort" type="submit" value="first_name_up">+</button>
+                <button class="col-sort-down" name="sort" type="submit" value="first_name_down">-</button>
+            </form>
+        </th>
+        <th class="students-table__cell--header">
+            <span class="students-table__cell--header__name">Фамилия</span>
+            <form class="col-sort" action="" method="get">
+                <button class="col-sort-up" name="sort" type="submit" value="last_name_up">+</button>
+                <button class="col-sort-down" name="sort" type="submit" value="last_name_down">-</button>
+            </form>
+        </th>
+        <th class="students-table__cell--header">
+            <span class="students-table__cell--header__name">Группа</span>
+            <form class="col-sort" action="" method="get">
+                <button class="col-sort-up" name="sort" type="submit" value="group_number_up">+</button>
+                <button class="col-sort-down" name="sort" type="submit" value="group_number_down">-</button>
+            </form>
+        </th>
+        <th class="students-table__cell--header">
+            <span class="students-table__cell--header__name">Баллы</span>
+            <form class="col-sort" action="" method="get">
+                <button class="col-sort-up" name="sort" type="submit" value="points_up">+</button>
+                <button class="col-sort-down" name="sort" type="submit" value="points_down">-</button>
+            </form>
+        </th>
+    </tr>
+    <?php foreach ($data['students'] as $student):?>
+    <tr class="students-table__row">
+        <td class="students-table__cell"><?=$student->getFirstName()?></td>
+        <td class="students-table__cell"><?=$student->getLastName()?></td>
+        <td class="students-table__cell"><?=$student->getGroupNumber()?></td>
+        <td class="students-table__cell"><?=$student->getPoints()?></td>
+    </tr>
+    <?php endforeach;?>
+</table>
+<?php elseif ($data['search'] == ''):?>
+    <p class="students-not-found">Вы ничего не написали...</p>
+<?php else: ?>
+    <p class="students-not-found">Ничего не найдено...</p>
+<?php endif; ?>
+
+<section class="pagination">
+    <?php if (isset($data['all_pages']) && $data['all_pages'] > 1): ?>
+    <span class="pagination__title">Страницы: </span>
+    <form class="pagination__form" id="show_all" action="" method="get">
+        <?php for ($i = 1;$data['all_pages'] >= $i; $i++):?>
+            <button class="pagination__form__btn<?= $data['current_page'] === $i ? ' pagination__form__btn--active': '';?>" type="submit" name="page" value="<?=$i?>"><?=$i?></button>
+        <?php endfor;?>
+    </form>
+
+    <?php elseif (isset($data['founded_pages']) && $data['founded_pages'] > 1):?>
+    <span class="pagination__title">Страницы: </span>
+    <form class="pagination__form" id="show_founded" action="/search" method="get">
+        <?php for ($i = 1;$data['founded_pages'] >= $i; $i++):?>
+            <button class="pagination__form__btn<?= $data['current_page'] === $i ? ' pagination__form__btn--active': '';?>" type="submit" name="page" value="<?=$i?>"><?=$i?></button>
+        <?php endfor;?>
+    </form>
+    <?php endif;?>
+</section>
+

@@ -1,0 +1,58 @@
+<div class="form">
+    <form class="form__regedit-form" action="" method="post">
+        <p class="form__regedit-form__title"><?=$data['form_title_text'] ?? 'Заполните поля:'?></p>
+        <p class="form__regedit-form__edit-result">  <?=$data['form_edit_result'] ?? ''?></p>
+        <label class="form__regedit-form__label long-label">
+            <input type="text" name="first_name" placeholder="Имя" value="<?=$data['form_values']['first_name'] ?? ''?>" class="form__regedit-form__input" required>
+            <p class="error_msg"><?=$data['errors']['first_name'] ?? ''?></p>
+        </label>
+
+        <label class="form__regedit-form__label long-label">
+            <input type="text" name="last_name" placeholder="Фамилия" value="<?=$data['form_values']['last_name'] ?? ''?>" class="form__regedit-form__input" required>
+            <p class="error_msg"><?=$data['errors']['last_name'] ?? ''?></p>
+        </label>
+
+        <span>Пол:</span>
+        <label class="form__regedit-form__label row-label">
+            <span>Мужской</span>
+            <input type="radio" name="gender" value="m" class="form__regedit-form__input" <?=$data['form_values']['gender_is_checked']['m'] ?? ''?> required>
+        </label>
+
+        <label class="form__regedit-form__label row-label">
+            <span>Женский</span>
+            <input type="radio" name="gender" value="f" class="form__regedit-form__input" <?=$data['form_values']['gender_is_checked']['f'] ?? ''?> required>
+        </label>
+
+        <label class="form__regedit-form__label">
+            <input type="text" name="group_number" placeholder="Номер группы" value="<?=$data['form_values']['group_number'] ?? ''?>" class="form__regedit-form__input" required>
+            <p class="error_msg"><?=$data['errors']['group_number'] ?? ''?></p>
+        </label>
+
+        <label class="form__regedit-form__label">
+            <input type="email" name="email" placeholder="Email" value="<?=$data['form_values']['email'] ?? ''?>" class="form__regedit-form__input" required>
+            <p class="error_msg"><?=$data['errors']['email'] ?? ''?></p>
+        </label>
+
+        <label class="form__regedit-form__label">
+            <input type="number" name="points" placeholder="Баллы за все предметы" value="<?=$data['form_values']['points'] ?? ''?>" class="form__regedit-form__input" required>
+            <p class="error_msg"><?=$data['errors']['points'] ?? ''?></p>
+        </label>
+
+        <label class="form__regedit-form__label">
+            <input type="number" name="year_of_birth" placeholder="Год рождения" value="<?=$data['form_values']['year_of_birth'] ?? ''?>" class="form__regedit-form__input" required>
+            <p class="error_msg"><?=$data['errors']['year_of_birth'] ?? ''?></p>
+        </label>
+
+        <span>Откуда:</span>
+        <label class="form__regedit-form__label row-label">
+            <span>Местный</span>
+            <input type="radio" name="locate" value="local" class="form__regedit-form__input" <?=$data['form_values']['locate_is_checked']['local'] ?? ''?> required>
+        </label>
+        <label class="form__regedit-form__label row-label">
+            <span>Иногородний</span>
+            <input type="radio" name="locate" value="foreign" class="form__regedit-form__input" <?=$data['form_values']['locate_is_checked']['foreign'] ?? ''?> required>
+        </label>
+        <button type="submit" class="form__regedit-form__btn"><?=$data['submit_data_text'] ?? 'Отправить'?></button>
+        <input type="hidden" name="token" value="<?= htmlspecialchars($data['token'], ENT_QUOTES) ?>">
+    </form>
+</div>
