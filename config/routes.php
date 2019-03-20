@@ -7,23 +7,23 @@ return [
         'controller' => 'main',
         'action'     => 'index'
     ],
-//
-//    '^search$' =>
-//    [
-//      'controller' => 'main',
-//      'action'     => 'search'
-//    ],
 
-//    '^register$' =>
-//    [
-//        'controller' => 'register',
-//        'action'     => 'index'
-//    ],
-
-
-    '^(?P<controller>[a-z]+)/?(?P<action>[a-z]+)?$' =>
+    '^search$' =>
     [
-        'controller' => '',
+        'controller' => 'main',
+        'action'     => 'search'
+    ],
+
+    '^signup$' =>
+        [
+            'controller' => 'user',
+            'action'     => 'signup'
+        ],
+
+    '^user/[0-9]+/(?P<action>(?!signup)[a-z]+)$' =>
+    [
+        'controller' => 'user',
         'action'     => ''
-    ]
+    ],
+
 ];
