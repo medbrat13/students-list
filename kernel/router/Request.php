@@ -47,7 +47,7 @@ class Request
 
     private function prepareController($pathTo, $controller): string
     {
-        return  $pathTo . str_replace(' ', '', ucwords(str_replace('-', ' ', $controller))) . 'Controller';
+        return $pathTo . str_replace(' ', '', ucwords(str_replace('-', ' ', $controller))) . 'Controller';
     }
 
     private function prepareAction($action): string

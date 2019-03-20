@@ -23,9 +23,9 @@ class Router
      */
     private $uri;
 
-    public function __construct($uri)
+    public function __construct(string $uri)
     {
-        $this->uri = $uri;
+        $this->uri = $this->cutGetParams($uri);
     }
 
     /**
@@ -72,20 +72,40 @@ class Router
         foreach ($routes as $route) {
             $pattern = $route->getPattern();
             if (preg_match("#$pattern#", $uri, $matches)) {
-
                 if ($route->getController() === '' && isset($matches['controller'])) {
                     $route->setController($matches['controller']);
                 }
 
                 if ($route->getAction() === '' && isset($matches['action'])) {
                     $route->setAction($matches['action']);
-                } else {
+                } else if ($route->getAction() === '') {
                     $route->setAction('index');
                 }
 
                 return $route;
             }
         }
+    }
+
+    /**
+     * Обрезает в адресной строке GET-параметры
+     *
+     * @param string $uri Адресная строка
+     *
+     * @return string
+     */
+    private function cutGetParams($uri): string
+    {
+        if ($uri) {
+            $params = explode('?', $uri, 2);
+            if(!strpos($params[0], '=')) {
+                return $params[0];
+            } else {
+                return '';
+            }
+        }
+
+        return '';
     }
 
     /**
@@ -119,7 +139,7 @@ class Router
         if (!$this->routeExists($this->routes, $this->uri)) {
             throw new \Exception("Маршрут $this->uri не найден", 404);
         }
-
+        
         $this->setCurrentRoute(
             $this->findAndPrepareRoute($this->routes, $this->uri)
         );
