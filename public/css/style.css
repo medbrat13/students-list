@@ -1,0 +1,276 @@
+@charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+  box-sizing: border-box;
+}
+
+*:before, *:after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header {
+  height: 50px;
+  background-color: black;
+}
+.header__container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 768px;
+}
+.header__title {
+  margin-left: 5px;
+  margin-right: 10px;
+  font-size: 18px;
+  color: white;
+}
+.header__btn {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: 5px;
+  padding: 6px 5px;
+  font-size: 13px;
+  cursor: pointer;
+  color: white;
+  font-family: "Arial", sans-serif;
+  background-color: transparent;
+  border: 2px solid #E52A72;
+  transition: all 0.5s;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 768px;
+}
+
+.search {
+  display: flex;
+  margin: 15px 0;
+}
+.search__form {
+  display: flex;
+  width: 100%;
+}
+.search__form__label {
+  width: 100%;
+}
+.search__form__field {
+  padding: 3px;
+  height: 35px;
+  width: 100%;
+  border: 1px solid lightgrey;
+}
+.search__form__btn {
+  margin-left: auto;
+  padding: 0 5px;
+  width: 150px;
+  height: 35px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #777;
+  background-color: transparent;
+  border: 1px solid lightgrey;
+  border-left: none;
+  transition: all 0.5s;
+}
+.search__result--painted {
+  color: white;
+}
+
+.students-table {
+  margin-bottom: 15px;
+  font-family: "Arial", sans-serif;
+  font-size: 14px;
+}
+.students-table__cell--header {
+  background: rgba(118, 79, 201, 0.8);
+  color: white;
+  padding: 6px 8px 10px;
+}
+.students-table__cell--header__name {
+  display: block;
+  margin-bottom: 5px;
+}
+.students-table__cell--header:last-child {
+  border-right: none;
+}
+.students-table__cell--header .col-sort {
+  display: flex;
+  justify-content: center;
+}
+.students-table__cell--header .col-sort-up, .students-table__cell--header .col-sort-down {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 0;
+  background-color: transparent;
+}
+.students-table__cell--header .col-sort-up {
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 14px solid white;
+  border-top: none;
+}
+.students-table__cell--header .col-sort-down {
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 14px solid white;
+  border-bottom: none;
+}
+.students-table__cell {
+  padding: 6px 8px;
+  background: rgba(229, 42, 114, 0.8);
+}
+.students-table__cell--header, .students-table__cell {
+  border-style: solid;
+  border-width: 0 1px 1px 0;
+  border-color: white;
+}
+.students-table__row .students-table__cell:last-child {
+  border-right: none;
+}
+.students-table__row:last-child .students-table__cell:first-child {
+  border-radius: 0 0 0 10px;
+}
+.students-table__row:last-child .students-table__cell:last-child {
+  border-radius: 0 0 10px 0;
+}
+
+.students-not-found {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+}
+.pagination__title {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 14px;
+}
+.pagination__form__btn {
+  margin-right: 5px;
+  width: 25px;
+  height: 25px;
+  border: 2px solid skyblue;
+  border-radius: 50%;
+  background-color: white;
+}
+.pagination__form__btn--active {
+  background-color: skyblue;
+}
+
+/*    Регистрация    */
+.form {
+  width: 100%;
+}
+.form__regedit-form {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.form__regedit-form__title {
+  margin: 10px 0;
+}
+.form__regedit-form__edit-result {
+  display: block;
+  margin-bottom: 10px;
+  padding: 0 10px;
+  width: 100%;
+  color: #16543d;
+  line-height: 2;
+  background-color: #d4edda;
+}
+.form__regedit-form__label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+.form__regedit-form__label input span {
+  margin-top: 100px;
+}
+.form__regedit-form__input {
+  padding: 7px 10px;
+  width: 100%;
+}
+.form__regedit-form [type=radio] {
+  width: 30px;
+}
+.form__regedit-form > span {
+  margin-bottom: 10px;
+  color: #888;
+}
+.form__regedit-form span {
+  display: block;
+  width: 130px;
+}
+.form__regedit-form__btn {
+  display: block;
+  padding: 6px 5px;
+  font-size: 13px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: #fff;
+  font-family: "Arial", sans-serif;
+  border: 2px solid rgba(118, 79, 201, 0.8);
+  transition: all 0.5s;
+}
+
+.row-label {
+  flex-direction: row;
+}
+
+.error_msg:not(:empty) {
+  position: relative;
+  margin: 10px 0 0 0;
+  padding: 3px;
+  font-size: 12px;
+  border: 1px solid #E52A72;
+}
+.error_msg:not(:empty)::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 5px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid #E52A72;
+  z-index: 0;
+}
+.error_msg:not(:empty)::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 5px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid white;
+  z-index: 1;
+}
+
+/*# sourceMappingURL=style.css.map */
