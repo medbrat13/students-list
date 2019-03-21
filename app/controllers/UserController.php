@@ -14,9 +14,6 @@ class UserController extends AppController
         parent::__construct($di);
         $this->studentMapper = $di->getDependency('students_mapper');
         $this->studentsValidator = $di->getDependency('students_validator');
-        if (!isset($_COOKIE['token'])) {
-            setcookie('token', uniqid('', true), mktime() + 86400, '/', null, false, true);
-        }
     }
 
     public function signUpAction(): void
@@ -28,21 +25,16 @@ class UserController extends AppController
         $this->setData(['header_btn_text' => 'Главная']);
         $this->setData(['form_title_text' => 'Заполните информацию о себе:']);
         $this->setData(['submit_data_text' => 'Отправить']);
-        $this->setData(['token' => $_COOKIE['token']]);
 
         if (isset($_COOKIE['user'])) {
             $student = $this->studentMapper->findOne($_COOKIE['user']);
             header('Location: /user/' . $student->getId() . '/edit');
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $cookieToken = $_COOKIE['token'] ?? null;
-            $postToken = $_POST['token'] ?? null;
+        $token = $this->setToken();
+        $this->setData(['token' => $token]);
 
-            if (!isset($cookieToken) || !isset($postToken) || (int)$cookieToken !== (int)$postToken) {
-                echo 'Небольшие неполадки в системе, попробуйте отправить позже...';
-                exit();
-            }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $values = $this->html($_POST);
 
@@ -54,14 +46,16 @@ class UserController extends AppController
                 $this->setData(['errors' => $errors]);
 
             } else {
-                $this->studentMapper->insert($student);
+                $postToken = $_POST['token'] ?? '';
+                $cookieToken = $_COOKIE['token'] ?? '';
 
+                $this->checkToken($postToken, $cookieToken);
+
+                $this->studentMapper->insert($student);
                 setcookie('user', $student->getId(), mktime() + 315360000, '/', null, false, true);
                 header('Location: /user/' . $student->getId() . '/edit?reg=success');
             }
-
         }
-
     }
 
     public function editAction(): void
@@ -78,10 +72,11 @@ class UserController extends AppController
         $this->setData(['header_btn_text' => 'Главная']);
         $this->setData(['form_title_text' => 'Вы можете отредактировать информацию о себе:']);
         $this->setData(['submit_data_text' => 'Сохранить']);
-        $this->setData(['token' => $_COOKIE['token']]);
+
         if (isset($_GET['edit']) && $_GET['edit'] === 'ok') {
             $this->setData(['form_edit_result' => 'Данные сохранены :)']);
         }
+
         $student = $this->studentMapper->findOne((int)$_COOKIE['user']);
         $studentURINumber = (int)explode('/', $_SERVER['QUERY_STRING'])[1];
 
@@ -94,30 +89,52 @@ class UserController extends AppController
             exit();
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $token = $this->setToken();
+        $this->setData(['token' => $token]);
 
-            $cookieToken = $_COOKIE['token'] ?? null;
-            $postToken = $_POST['token'] ?? null;
-            if (!isset($cookieToken) || !isset($postToken) || $cookieToken !== $postToken) {
-                echo 'Небольшие неполадки в системе, попробуйте отправить позже...';
-                exit();
-            }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $values = $this->setAttrValues($this->html($_POST));
             $values['id'] = $student->getId();
 
             $updatedStudent = $this->studentMapper->create($values);
             $errors = $this->studentsValidator->validate($updatedStudent, true);
-            if ($errors !== []) {
 
+            if ($errors !== []) {
                 $this->setData(['form_values' => $values]);
                 $this->setData(['errors' => $errors]);
+
             } else {
+                $postToken = $_POST['token'] ?? '';
+                $cookieToken = $_COOKIE['token'] ?? '';
+
+                $this->checkToken($postToken, $cookieToken);
+
                 $this->studentMapper->update($updatedStudent);
                 header('Location: /user/' . $student->getId() . '/edit?edit=ok');
 
             }
+        }
+    }
 
+    private function setToken(): string
+    {
+        if (!isset($_COOKIE['token'])) {
+            $token = uniqid('', true);
+            setcookie('token', $token, mktime() + 86400, '/', null, false, true);
+        } else {
+            $token = $_COOKIE['token'];
+            setcookie('token', $token, mktime() + 86400, '/', null, false, true);
+        }
+
+        return $token;
+    }
+
+    private function checkToken(string $postToken, string $cookieToken): void
+    {
+        if ($postToken === '' || $cookieToken === '' || $postToken !== $cookieToken) {
+            echo 'Небольшие неполадки в системе, попробуйте отправить позже...';
+            exit();
         }
     }
 

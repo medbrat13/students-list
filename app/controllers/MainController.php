@@ -17,10 +17,6 @@ class MainController extends AppController
 
         $this->studentMapper = $di->getDependency('students_mapper');
         session_start();
-
-        if (!isset($_COOKIE['token'])) {
-            setcookie('token', uniqid('', true), mktime() + 86400, '/', null, false, true);
-        }
     }
 
     public function indexAction(): void
@@ -30,7 +26,6 @@ class MainController extends AppController
         $this->setData(['h1' => 'Список абитуриентов']);
         $this->setData(['header_btn_action' => '/signup']);
         $this->setData(['header_btn_text' => 'Мой профиль']);
-        $this->setData(['token' => $_COOKIE['token']]);
 
         $get = $_GET ?? [];
 
@@ -60,7 +55,6 @@ class MainController extends AppController
         $this->setData(['h1' => 'Поиск']);
         $this->setData(['header_btn_action' => '/']);
         $this->setData(['header_btn_text' => 'Показать всех']);
-        $this->setData(['token' => $_COOKIE['token']]);
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
