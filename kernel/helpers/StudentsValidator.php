@@ -24,16 +24,20 @@ class StudentsValidator
             $studentInvalidFields['first_name'] = 'Слишком короткое имя, вероятно, вас зовут не так :)';
         } else if (mb_strlen($student->getFirstName()) > 35) {
             $studentInvalidFields['first_name'] = 'Слишком длинное имя, вероятно, вас зовут не так :)';
-        } else if (!preg_match('#^[A-Za-zА-ЯЁа-яё]+$#iu', $student->getFirstName())) {
-            $studentInvalidFields['first_name'] = 'В имени не должно быть ничего, кроме букв :)';
+        } else if (!preg_match('#^([ ?(\&\#039;)?\-?a-z]|[ ?(\&\#039;)?\-?а-яё])+$#iu', $student->getFirstName())) {
+            $studentInvalidFields['first_name'] = 'В имени не должно быть ничего, кроме букв, дефиса и апострофа :)';
+        } else if (!preg_match('#^[a-zа-я]+.*[a-zа-я]+$#iu', $student->getFirstName())) {
+            $studentInvalidFields['first_name'] = 'Имя должно начинаться с буквы и заканчиваться ею :)';
         }
 
         if ($student->getLastName() === '') {
             $studentInvalidFields['last_name'] = 'Фамилия не может состоять из пробелов :)';
         } else if (mb_strlen($student->getLastName()) > 45) {
             $studentInvalidFields['last_name'] = 'Слишком длинная фамилия, вероятно, ее не существует :)';
-        } else if (!preg_match('#^[A-Za-zА-ЯЁа-яё]+$#iu', $student->getLastName())) {
-            $studentInvalidFields['last_name'] = 'В фамилии не должно быть ничего, кроме букв :)';
+        } else if (!preg_match('#^([ ?(\&\#039;)?\-?a-z]|[ ?(\&\#039;)?\-?а-яё])+$#iu', $student->getLastName())) {
+            $studentInvalidFields['last_name'] = 'В фамилии не должно быть ничего, кроме букв, дефиса и апострофа :)';
+        } else if (!preg_match('#^[a-zа-я]+.*[a-zа-я]+$#iu', $student->getLastName())) {
+            $studentInvalidFields['last_name'] = 'Фамилия должна начинаться с буквы и заканчиваться ею :)';
         }
 
         if (mb_strlen($student->getYearOfBirth()) !== 4) {
