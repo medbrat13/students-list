@@ -2,8 +2,6 @@
 
 namespace StudentsList\Kernel\DB;
 
-use StudentsList\Kernel\DI;
-
 /**
  * Класс для соединения с бд
  */
@@ -19,10 +17,9 @@ class Connection {
      */
     private $pdo;
 
-    public function __construct(DI $di)
+    public function __construct(DBConfig $config)
     {
-        $this->config = $di->getDependency('db_config');
-
+        $this->config = $config;
         $this->connect();
     }
 

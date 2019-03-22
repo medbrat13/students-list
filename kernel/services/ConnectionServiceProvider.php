@@ -15,10 +15,12 @@ class ConnectionServiceProvider extends AbstractServiceProvider
      * Создает сервис
      *
      * @return void
+     * @throws \Exception
      */
     public function init(): void
     {
-        $connection = new Connection($this->di);
+        $config = $this->di->getDependency('db_config');
+        $connection = new Connection($config);
         $this->di->setDependency($this->serviceName, $connection);
     }
 }
