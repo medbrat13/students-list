@@ -96,9 +96,11 @@ body {
 
 .students-table {
   margin-bottom: 15px;
-  width: 768px;
+  max-width: 768px;
+  width: 100%;
   font-family: "Arial", sans-serif;
   font-size: 14px;
+  table-layout: fixed;
 }
 .students-table__cell--header {
   background: rgba(118, 79, 201, 0.8);
