@@ -47,7 +47,7 @@ class StudentsValidator
         }
 
         if (!preg_match('#^[A-Za-zА-ЯЁа-яё0-9]{5}$#iu', $student->getGroupNumber())) {
-            $studentInvalidFields['group_number'] = 'Номер группы состоит из 5 букв одного алфавита и/или цифр, не больше, не меньше';
+            $studentInvalidFields['group_number'] = 'Номер группы состоит из 5 букв одного алфавита и/или цифр, ни больше ни меньше';
         }
 
 
